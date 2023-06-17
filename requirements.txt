@@ -1,0 +1,10 @@
+openai
+speechrecognition
+python-dotenv
+requests
+pydub
+pyaudio
+pyttsx3
+requests
+keyboard
+datetime
