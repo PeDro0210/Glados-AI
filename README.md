@@ -1,9 +1,9 @@
-# Glados AI Bot
+/ Glados AI Bot
 
-## What's Glados AI Bot?
+// What's Glados AI Bot?
 Tecnically, Glados AI Bot is a TTS and STT bot, powered by Chatgpt (with whisper and Chatgpt API)
 
-## How to use Glados AI Bot?
+// How to use Glados AI Bot?
 
 First, install all the requirements with pip:
 
@@ -13,7 +13,7 @@ pip install -r requirements.txt
 
 Then, well just run it and enjoy.
 
-# Hope all of you enjoy it
+/ Hope all of you enjoy it
 
-### Btw, remebear you need to make an .env file for the keys and tokens (it uses chatgpt and open meteo api)
+/// Btw, remebear you need to make an .env file for the keys and tokens (it uses chatgpt and open meteo api)
 
