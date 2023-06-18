@@ -11,6 +11,8 @@ First, install all the requirements with pip:
 pip install -r requirements.txt
 ```
 
+If you already installed the release, just open the .exe and wait a little, then it will start the fun.
+
 Then, well just run it and enjoy.
 
 # Hope all of you enjoy it
