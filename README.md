@@ -22,5 +22,5 @@ Then, well just run it and enjoy.
 # Hope all of you enjoy it
 
 ### Btw, remebear put the thingsin the API FILES (it uses chatgpt and open meteo api)
-
-### thx to https://github.com/VRCWizard/glados-tts-voice-wizard for the tts, credits to him :D
+### Thx to https://github.com/VRCWizard/glados-tts-voice-wizard for the tts, credits to him :D
+### Also, it takes a while to boot up
