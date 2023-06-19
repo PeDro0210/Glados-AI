@@ -7,9 +7,13 @@ Tecnically, Glados AI Bot is a TTS and STT bot, powered by Chatgpt (with whisper
 
 First, install all the requirements with pip:
 
+You need to install the espeak msi from this link:
+https://github.com/espeak-ng/espeak-ng/releases/tag/1.51
+
 ```bash
 pip install -r requirements.txt
 ```
+
 
 If you already installed the release, just open the .exe and wait a little, then it will start the fun.
 

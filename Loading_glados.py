@@ -1,4 +1,5 @@
 import time
+import winsound
 Logo=r"""             .,-:;//;:=,
           . :H@@@MM@M/H/.,+%;,
        ,/X+ +M@@M@MM%=,-%HMMM@X/,
@@ -23,7 +24,7 @@ Logo=r"""             .,-:;//;:=,
 
 
 Info=r"INFO:"
-comencing=[r"Initializing.",r"GLaDOS Activating, Pleas Wait...",r"GLaDos is ready."]
+comencing=[r"Initializing.",r"GLaDOS Activating, Please Wait...",r"GLaDos is ready."]
 
 def print_slow(text):
     for char in text:
@@ -34,10 +35,11 @@ def print_info_slow(comencing,info,Logo):
     print_slow("\033[38;5;208m" + Logo + "\033[0m")
     print("\n")
     for i in comencing:
-        print(f"\033[34m{info}\033[0m \033[38;5;208m{i}\033[0m")
+        print_slow(f"\033[34m{info}\033[0m \033[38;5;208m{i}\033[0m\n")
         time.sleep(2)
 
 def do_all():
     print_info_slow(comencing,Info,Logo)
+    winsound.PlaySound("Audios/glados_startup.wav", winsound.SND_ASYNC)
 
 
