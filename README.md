@@ -17,9 +17,10 @@ pip install -r requirements.txt
 
 If you already installed the release, just open the .exe and wait a little, then it will start the fun.
 
-Then, well just run it and enjoy.
+Always say glados in your setence if you wanna talk to her.
 
 # Hope all of you enjoy it
 
-### Btw, remebear you need to make an .env file for the keys and tokens (it uses chatgpt and open meteo api)
-
+### Btw, remebear put the thingsin the API FILES (it uses chatgpt and open meteo api).
+### Thx to https://github.com/VRCWizard/glados-tts-voice-wizard for the tts, credits to him :D.
+### Also, it takes a while to boot up.
