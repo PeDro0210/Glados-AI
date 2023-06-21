@@ -1,8 +1,10 @@
-import glados_text_to_speech
-import Loading_glados
+import glados_TTS
+import voice_recognization
+import glados_AI
 
-Loading_glados.do_all()
 while True:
     if __name__ == "__main__":
-        glados_text_to_speech.action_made()               
-                              
+        try:
+            glados_TTS.glados_Speaks(glados_AI.glados_Speaks(voice_recognization.voice_recognization()))
+        except:
+            print("Maximun Failures Reached")

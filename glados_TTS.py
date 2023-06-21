@@ -3,6 +3,7 @@ from utils.tools import prepare_text
 from scipy.io.wavfile import write
 import time
 from sys import modules as mod
+import Loading_glados
 try:
     import winsound
     import os
@@ -13,8 +14,10 @@ except ImportError:
 
 # Select the device
 if torch.is_vulkan_available():
+    print("Using Vulkan")
     device = 'vulkan'
 if torch.cuda.is_available():
+    print("Using GPU")
     device = 'cuda'
 else:
     device = 'cpu'
@@ -29,6 +32,7 @@ for i in range(2):
     init_mel = init['mel_post'].to(device)
     init_vo = vocoder(init_mel)
 
+Loading_glados.do_all()
 def glados_Speaks(text):
 
     # Tokenize, clean and phonemize input text

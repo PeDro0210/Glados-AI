@@ -46,29 +46,28 @@ def glados_Speaks(message) -> str:
 
 
             else:
-                if "glados" in message_apart or "glados." in message_apart or "glados," in message_apart or "gladys," in message_apart or "gladys." in message_apart or "gladys" in message_apart:
                     
-                    message=str(message)
-                    chat_log.append({"role":"user","content":f"{message}"})
+                message=str(message)
+                chat_log.append({"role":"user","content":f"{message}"})
+            
+                Glados_prompt_response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=chat_log,
+                    temperature=1,
+                    stop=None
+                )
                 
-                    Glados_prompt_response = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo",
-                        messages=chat_log,
-                        temperature=1,
-                        stop=None
-                    )
-                    
-                    chat_log.append({"role":"assistant","content":Glados_prompt_response['choices'][0]['message']['content']})
-                    
+                chat_log.append({"role":"assistant","content":Glados_prompt_response['choices'][0]['message']['content']})
+                
 
-                    print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
-                    print_slow(f"\033[34mResponse:\033[0m \033[38;5;208m{Glados_prompt_response['choices'][0]['message']['content']}\033[0m\n")
+                print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
+                print_slow(f"\033[34mResponse:\033[0m \033[38;5;208m{Glados_prompt_response['choices'][0]['message']['content']}\033[0m\n")
 
 
-                    return Glados_prompt_response['choices'][0]['message']['content']
+                return Glados_prompt_response['choices'][0]['message']['content']
 
         
         
     except:
-        return "Error 404: I'm not in position to answear you that rigth now, useless human"
+        return "Error 404: I'm not in position to answear you that right now, useless human"
 

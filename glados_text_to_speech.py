@@ -1,10 +1,10 @@
-import glados
+import glados_TTS
 import glados_AI
 import voice_recognization
 
 
 def speach_to_text(text):
-    glados.glados_Speaks(text)
+    glados_TTS.glados_Speaks(text)
 
 def action_made():
     try:
