@@ -25,46 +25,76 @@ def glados_Speaks(message) -> str:
             message_apart=message.lower().split(" ")
 
 
-            if "temperature" in message_apart:
+            if "temperature." in message_apart:
 
                 request_weather=requests.get(Weather_URL).json()
 
+                #Takes the currenct date
                 current_datetime = datetime.datetime.now()
                 formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M")
 
+                #takes the actual hour and puts it in the format needed for the weatherapi
                 formatted_datetime = formatted_datetime.split(" ")
                 formatted_datetime.insert(1,"T")
                 formatted_datetime="".join(formatted_datetime)
                 formatted_datetime=f"{formatted_datetime[0:13]}:00"
 
+                #does the compration with the hour in the new format and the hour in the weather api
                 if formatted_datetime in request_weather['hourly']['time']:
                     index = request_weather['hourly']['time'].index(formatted_datetime)
                     print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
                     print_slow(f"\033[34mResponse:\033[0m \033[38;5;208mSure human, the temperature at {formatted_datetime[11:13]} of clock is {request_weather['hourly']['temperature_2m'][index]} degrees celsius\033[0m\n")
-
+                    chat_log.append({"role":"user","content":f"{message}"})
+                    chat_log.append({"role":"assistant","content":f"Sure human, the temperature at {formatted_datetime[11:13]} of clock is {request_weather['hourly']['temperature_2m'][index]} degrees celsius"})
                     return f"Sure human, the temperature at {formatted_datetime[11:13]} of clock is is {request_weather['hourly']['temperature_2m'][index]} degrees celsius"
 
 
             else:
-                    
-                message=str(message)
-                chat_log.append({"role":"user","content":f"{message}"})
+
+            #depending on the message, it will do a different thing, and send a request to openai        
             
-                Glados_prompt_response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=chat_log,
-                    temperature=1,
-                    stop=None
-                )
+                if "shut" and "up." in message_apart:
+                    message=str(message)
+                    chat_log.append({"role":"system","content":f"The conversation has ended Glados, you can go back to your duties"})
+            
+                    Glados_prompt_response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=chat_log,
+                        temperature=1,
+                        stop=None
+                    )
+                    
+                    chat_log.append({"role":"assistant","content":Glados_prompt_response['choices'][0]['message']['content']})
+                    
+
+                    print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
+                    print_slow(f"\033[34mResponse:\033[0m \033[38;5;208m{Glados_prompt_response['choices'][0]['message']['content']}\033[0m\n")
+                    print_slow(f"\033[34mINFO:\033[0m \033[38;5;208mGLaDOS Shutting down.\033[0m\n")
+
+
+                    return Glados_prompt_response['choices'][0]['message']['content']
                 
-                chat_log.append({"role":"assistant","content":Glados_prompt_response['choices'][0]['message']['content']})
+                else:
+                    message=str(message)
+                    chat_log.append({"role":"user","content":f"{message}"})
+                    
+                    Glados_prompt_response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=chat_log,
+                        temperature=1,
+                        stop=None
+                    )
+                    
+                    chat_log.append({"role":"assistant","content":Glados_prompt_response['choices'][0]['message']['content']})
+                    
+
+                    print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
+                    print_slow(f"\033[34mResponse:\033[0m \033[38;5;208m{Glados_prompt_response['choices'][0]['message']['content']}\033[0m\n")
+
+                    return Glados_prompt_response['choices'][0]['message']['content']
                 
-
-                print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
-                print_slow(f"\033[34mResponse:\033[0m \033[38;5;208m{Glados_prompt_response['choices'][0]['message']['content']}\033[0m\n")
-
-
-                return Glados_prompt_response['choices'][0]['message']['content']
+            
+            
 
         
         

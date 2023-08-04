@@ -12,6 +12,7 @@ model="whisper-1"
 
 def voice_recognization():
     try:
+        #takes input from microphone and saves it in a file
         with Microphone() as Users_microphone:
             print(f"\033[34mINFO:\033[0m \033[38;5;208mGlados is listening\033[0m")
             Users_audio = recognizer.listen(Users_microphone, timeout=5)
@@ -21,6 +22,7 @@ def voice_recognization():
 
         openai.api_key = Open_AI_KEY
 
+        #sends audio as bytes to openai and gets the text
         with open("Audios/microphone-results.wav", "rb") as audio_file:
             glados_response = openai.Audio.transcribe(file=audio_file, model=model)
 
@@ -28,6 +30,10 @@ def voice_recognization():
                 pass
             else:                
                 return glados_response['text']
-        
+                 
     except WaitTimeoutError:
         pass
+    except:
+        return "Error 504ValveInteractive: I'm not in position to answear you that right now, inferior human, try again, someday"
+
+

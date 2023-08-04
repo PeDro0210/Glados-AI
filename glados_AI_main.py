@@ -2,9 +2,27 @@ import glados_TTS
 import voice_recognization
 import glados_AI
 
+Conversation_engaged=False
 while True:
     if __name__ == "__main__":
         try:
-            glados_TTS.glados_Speaks(glados_AI.glados_Speaks(voice_recognization.voice_recognization()))
+            text_said=voice_recognization.voice_recognization()
+            if text_said!=None:
+                text_said_apart=text_said.lower().split(" ")    
+
+                if "temperature." in text_said_apart:
+                    glados_TTS.glados_Speaks(glados_AI.glados_Speaks("temperature."))
+                else:
+
+                    if "glados," in text_said_apart or "glados" in text_said_apart or "glados." in text_said_apart:
+                        Conversation_engaged=True
+
+                    if "shut" and "up." in text_said_apart and Conversation_engaged==True:
+                        glados_TTS.glados_Speaks(glados_AI.glados_Speaks("shut up."))
+                        Conversation_engaged=False
+
+                    if Conversation_engaged:
+                        voice=glados_AI.glados_Speaks(text_said)
+                        glados_TTS.glados_Speaks(voice)
         except:
-            print("Maximun Failures Reached")
+            print(f"\033[34m\033[31mERROR:\033[0m \033[38;5;208mMAXIMUN FAILURE\033[0m")    
