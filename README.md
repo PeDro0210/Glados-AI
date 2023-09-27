@@ -31,4 +31,5 @@ python Glados_Ai_main.py
 
 ### Btw, remebear put the thingsin the API FILES (it uses chatgpt and open meteo api).
 ### Thx to https://github.com/VRCWizard/glados-tts-voice-wizard for the tts, credits to him :D.
+### and Also to https://github.com/R2D2FISH/glados-tts who made the original glados tts.
 ### Also, it takes a while to boot up.
