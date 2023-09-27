@@ -1,4 +1,3 @@
-import glados_TTS
 import voice_recognization
 import glados_AI
 

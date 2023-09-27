@@ -1,6 +1,6 @@
 from speech_recognition import Recognizer,Microphone,WaitTimeoutError
-from dotenv import load_dotenv
 import openai
+import os
 from API_KEYS_FOR_FRIENDS import Open_AI_API
 
 
@@ -16,14 +16,15 @@ def voice_recognization():
         with Microphone() as Users_microphone:
             print(f"\033[34mINFO:\033[0m \033[38;5;208mGlados is listening\033[0m")
             Users_audio = recognizer.listen(Users_microphone, timeout=5)
+            os.system("cls")
             print(f"\033[34mINFO:\033[0m \033[38;5;208mGlados done listening\033[0m")
-            with open("Audios/microphone-results.wav", "wb") as f:
+            with open("src\Audios\microphone-results.wav", "wb") as f:
                 f.write(Users_audio.get_wav_data())
 
         openai.api_key = Open_AI_KEY
 
         #sends audio as bytes to openai and gets the text
-        with open("Audios/microphone-results.wav", "rb") as audio_file:
+        with open("src\Audios\microphone-results.wav", "rb") as audio_file:
             glados_response = openai.Audio.transcribe(file=audio_file, model=model)
 
             if glados_response['text']=="" or glados_response['text']==" " or glados_response['text']==None:

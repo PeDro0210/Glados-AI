@@ -11,20 +11,23 @@ try:
     os.environ['PHONEMIZER_ESPEAK_PATH'] = 'C:\Program Files\eSpeak NG\espeak-ng.exe'
 except ImportError:
     from subprocess import call
+import os
 
-# Select the device
-if torch.is_vulkan_available():
-    print("Using Vulkan")
-    device = 'vulkan'
+
 if torch.cuda.is_available():
-    print("Using GPU")
-    device = 'cuda'
+    Loading_glados.print_slow(f"\033[34mINFO:\033[0m \033[38;5;208mGPU name: {torch.cuda.get_device_name(0)}\n")
+    Loading_glados.print_slow(f"\033[34mINFO:\033[0m \033[38;5;208mSorry, for the moment we don't support GPU.\033[0m\n")
+    # Change to 'cuda' when a GPU trained model is available
+    device = 'cpu'
 else:
+    print("Using CPU")
     device = 'cpu'
 
+
+# TODO: Wait for the developer to get a GPU trained model for glados
 # Load models
-glados = torch.jit.load('models/glados.pt')
-vocoder = torch.jit.load('models/vocoder-gpu.pt', map_location=device)
+glados = torch.jit.load('src\models\glados.pt', map_location=device)
+vocoder = torch.jit.load('src\\models\\vocoder-gpu.pt', map_location=device)
 
 # Prepare models in RAM
 for i in range(2):
@@ -36,7 +39,7 @@ Loading_glados.do_all()
 def glados_Speaks(text):
 
     # Tokenize, clean and phonemize input text
-    x = prepare_text(text).to('cpu')
+    x = prepare_text(text).to(device)
 
     with torch.no_grad():
 
@@ -55,7 +58,7 @@ def glados_Speaks(text):
         audio = audio.squeeze()
         audio = audio * 32768.0
         audio = audio.cpu().numpy().astype('int16')
-        output_file = ('Audios/output.wav')
+        output_file = ('src\Audios\output.wav')
         
         # Write audio file to disk
         # 22,05 kHz sample rate
@@ -66,6 +69,6 @@ def glados_Speaks(text):
             winsound.PlaySound(output_file, winsound.SND_FILENAME)
         else:
             try:
-                call(["aplay", ".Audios/output.wav"])
+                call(["aplay", "src\Audios\output.wav"])
             except FileNotFoundError:
-                call(["pw-play", ".Audios/output.wav"])
+                call(["pw-play", "src\Audios\output.wav"])
