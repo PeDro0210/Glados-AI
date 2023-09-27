@@ -22,5 +22,5 @@ Always say glados in your setence if you wanna talk to her.
 # Hope all of you enjoy it
 
 ### Btw, remebear put the thingsin the API FILES (it uses chatgpt and open meteo api).
-### Thx to https://github.com/VRCWizard/glados-tts-voice-wizard for the tts, credits to him :D.
+### Thx to https://github.com/VRCWizard/glados-tts-voice-wizard for the tts, credits to him :D and https://github.com/R2D2FISH/glados-tts, that was the one who did it originally.
 ### Also, it takes a while to boot up.
