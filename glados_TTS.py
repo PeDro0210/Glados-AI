@@ -7,52 +7,59 @@ import Loading_glados
 try:
     import winsound
     import os
+    #just windows compatibility
     os.environ['PHONEMIZER_ESPEAK_LIBRARY'] = 'C:\Program Files\eSpeak NG\libespeak-ng.dll'
     os.environ['PHONEMIZER_ESPEAK_PATH'] = 'C:\Program Files\eSpeak NG\espeak-ng.exe'
 except ImportError:
     from subprocess import call
 import os
+from concurrent.futures import ThreadPoolExecutor
+import time
 
 
 if torch.cuda.is_available():
-    Loading_glados.print_slow(f"\033[34mINFO:\033[0m \033[38;5;208mGPU name: {torch.cuda.get_device_name(0)}\n")
-    Loading_glados.print_slow(f"\033[34mINFO:\033[0m \033[38;5;208mSorry, for the moment we don't support GPU.\033[0m\n")
     # Change to 'cuda' when a GPU trained model is available
-    device = 'cpu'
+    device = 'cuda'
 else:
     print("Using CPU")
     device = 'cpu'
 
 
-# TODO: Wait for the developer to get a GPU trained model for glados
+
 # Load models
-glados = torch.jit.load('src\models\glados.pt', map_location=device)
+glados = torch.jit.load('src\models\glados.pt', map_location="cpu")
 vocoder = torch.jit.load('src\\models\\vocoder-gpu.pt', map_location=device)
 
 # Prepare models in RAM
-for i in range(2):
-    init = glados.generate_jit(prepare_text(str(i)))
-    init_mel = init['mel_post'].to(device)
-    init_vo = vocoder(init_mel)
+def warmup():
+    for i in range(2):
+        init = glados.generate_jit(prepare_text(str(i)))
+        init_mel = init['mel_post'].to(device)
+        init_vo = vocoder(init_mel)
 
-Loading_glados.do_all()
+# Warmup models in a separate thread from the loading screen
+executor = ThreadPoolExecutor(max_workers=2)
+warmpup_Future = executor.submit(warmup)
+Loading_glados_Future = executor.submit(Loading_glados.do_all)
+warmpuload=warmpup_Future.result()
+Loading_gladosload=Loading_glados_Future.result()
+
+
 def glados_Speaks(text):
 
     # Tokenize, clean and phonemize input text
-    x = prepare_text(text).to(device)
+    x = prepare_text(text).to('cpu') #For the moment, we only support CPU
 
     with torch.no_grad():
 
         # Generate generic TTS-output
         old_time = time.time()
         tts_output = glados.generate_jit(x)
-        # print("Forward Tacotron took " + str((time.time() - old_time) * 1000) + "ms")
 
         # Use HiFiGAN as vocoder to make output sound like GLaDOS
         old_time = time.time()
         mel = tts_output['mel_post'].to(device)
         audio = vocoder(mel)
-        # print("HiFiGAN took " + str((time.time() - old_time) * 1000) + "ms")
         
         # Normalize audio to fit in wav-file
         audio = audio.squeeze()

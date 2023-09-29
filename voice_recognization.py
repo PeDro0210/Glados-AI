@@ -33,7 +33,8 @@ def voice_recognization():
                 return glados_response['text']
                  
     except WaitTimeoutError:
-        pass
+        pass #it always happens, so I just ignore it
+        #but in case is not returning anything, check in here.
     except:
         return "Error 504ValveInteractive: I'm not in position to answear you that right now, inferior human, try again, someday"
 
