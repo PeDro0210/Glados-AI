@@ -3,7 +3,7 @@ from utils.tools import prepare_text
 from scipy.io.wavfile import write
 import time
 from sys import modules as mod
-import Loading_glados
+from Loading_glados import do_all
 try:
     import winsound
     import os
@@ -26,23 +26,32 @@ else:
 
 
 
-# Load models
-glados = torch.jit.load('src\models\glados.pt', map_location="cpu")
-vocoder = torch.jit.load('src\\models\\vocoder-gpu.pt', map_location=device)
+
 
 # Prepare models in RAM
-def warmup():
+def warmup():    
+    # Load models
+    glados = torch.jit.load('src\models\glados.pt', map_location="cpu")
+    vocoder = torch.jit.load('src\\models\\vocoder-gpu.pt', map_location=device)
+
     for i in range(2):
         init = glados.generate_jit(prepare_text(str(i)))
         init_mel = init['mel_post'].to(device)
         init_vo = vocoder(init_mel)
 
+    return glados, vocoder
+
 # Warmup models in a separate thread from the loading screen
 executor = ThreadPoolExecutor(max_workers=2)
 warmpup_Future = executor.submit(warmup)
-Loading_glados_Future = executor.submit(Loading_glados.do_all)
+Loading_glados_Future = executor.submit(do_all)
 warmpuload=warmpup_Future.result()
 Loading_gladosload=Loading_glados_Future.result()
+
+# loads the models from the thread
+glados = warmpuload[0]
+vocoder = warmpuload[1]
+
 
 
 def glados_Speaks(text):
