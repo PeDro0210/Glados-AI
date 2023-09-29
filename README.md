@@ -17,6 +17,7 @@ Technically, Glados AI Bot is a Text-to-Speech (TTS) and Speech-to-Text (STT) bo
 
 3. **Start Interacting**: Begin conversing with Glados AI Bot. Enjoy!
 
+> Once I get the executable file working, hehe.
 ## Setting up Glados AI Bot from Source
 
 If you prefer to set up Glados AI Bot from source, follow these steps:
