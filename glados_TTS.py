@@ -24,15 +24,11 @@ else:
     print("Using CPU")
     device = 'cpu'
 
-
-
-
-
 # Prepare models in RAM
 def warmup():    
     # Load models
-    glados = torch.jit.load('src\models\glados.pt', map_location="cpu")
-    vocoder = torch.jit.load('src\\models\\vocoder-gpu.pt', map_location=device)
+    glados = torch.jit.load('models\glados.pt', map_location="cpu")
+    vocoder = torch.jit.load('models\\vocoder-gpu.pt', map_location=device)
 
     for i in range(2):
         init = glados.generate_jit(prepare_text(str(i)))
@@ -51,7 +47,6 @@ Loading_gladosload=Loading_glados_Future.result()
 # loads the models from the thread
 glados = warmpuload[0]
 vocoder = warmpuload[1]
-
 
 
 def glados_Speaks(text):
@@ -74,7 +69,7 @@ def glados_Speaks(text):
         audio = audio.squeeze()
         audio = audio * 32768.0
         audio = audio.cpu().numpy().astype('int16')
-        output_file = ('src\Audios\output.wav')
+        output_file = ('Audios\output.wav')
         
         # Write audio file to disk
         # 22,05 kHz sample rate
@@ -85,6 +80,6 @@ def glados_Speaks(text):
             winsound.PlaySound(output_file, winsound.SND_FILENAME)
         else:
             try:
-                call(["aplay", "src\Audios\output.wav"])
+                call(["aplay", "Audios\output.wav"])
             except FileNotFoundError:
-                call(["pw-play", "src\Audios\output.wav"])
+                call(["pw-play", "Audios\output.wav"])

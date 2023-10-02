@@ -43,6 +43,6 @@ def print_info_slow(comencing,info,Logo):
 def do_all():
     #it will print the logo and the info, and then it will print the comencing list
     print_info_slow(comencing,Info,Logo)
-    winsound.PlaySound("src\Audios\glados_startup.wav", winsound.SND_ASYNC)
+    winsound.PlaySound("Audios\glados_startup.wav", winsound.SND_ASYNC)
 
 
