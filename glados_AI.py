@@ -2,7 +2,7 @@ from AIDependencies.Temperature import TemperatureFormat
 import openai
 from API_KEYS_FOR_FRIENDS import Open_AI_API,Weather_URL
 from AIDependencies.AppleShorcuts.Lights import turnOn, turnOff
-from utils.DoubleThread import MultiThreading
+from DoubleThread import MultiThreading
 import asyncio
 
 #Api keys
