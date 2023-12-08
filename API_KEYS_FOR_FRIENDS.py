@@ -1,3 +1,2 @@
-#put the API keys
-Open_AI_API=""
-Weather_URL=""
+Open_AI_API="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"
+Weather_URL="https://api.open-meteo.com/v1/forecast?latitude=14.60&longitude=-90.50&hourly=temperature_2m&current_weather=true&timezone=CST"

@@ -31,10 +31,13 @@ class tts_runner:
         # Select the device
         if torch.cuda.is_available():
             self.device = 'cuda'
+            print("Using GPU")
         elif torch.is_vulkan_available():
             self.device = 'vulkan'
+            print("Using Vulkan")
         else:
             self.device = 'cpu'
+            print("Using CPU")
 
         # Load models
         self.glados = torch.jit.load('src\gladosTTS\models\glados-new.pt')
@@ -89,7 +92,7 @@ class tts_runner:
         audio = self.run_tts(sentences[0])
         pause = AudioSegment.silent(duration=delay)
         old_line = AudioSegment.silent(duration=1.0) + audio
-        self.speak_one_line(old_line, "old_line.wav")
+        self.speak_one_line(old_line, "src/Audios/old_line.wav")
         old_time = time.time()
         old_dur = old_line.duration_seconds
         new_dur = old_dur
@@ -105,13 +108,14 @@ class tts_runner:
                     new_dur = old_line.duration_seconds
                 time_left = old_dur - time.time() + old_time
                 if time_left <= 0 and self.log:
-                    print("\033[34mINFO:\033[0m \033[38;5;208mGlados processing Audio\033[0m")
+                    pass
+                    # print("\033[34mINFO:\033[0m \033[38;5;208mGlados processing Audio\033[0m")
                 else:
                     time.sleep(time_left + delay)
                 if idx % 2 == 1:
-                    self.speak_one_line(new_line, "new_line.wav")
+                    self.speak_one_line(new_line, "src/Audios/new_line.wav")
                 else:
-                    self.speak_one_line(old_line, "old_line.wav")
+                    self.speak_one_line(old_line, "src/Audios/old_line.wav")
                 old_time = time.time()
                 old_dur = new_dur
         else:

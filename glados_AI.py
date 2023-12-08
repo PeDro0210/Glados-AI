@@ -2,6 +2,7 @@ from AIDependencies.Temperature import TemperatureFormat
 import openai
 from API_KEYS_FOR_FRIENDS import Open_AI_API,Weather_URL
 from AIDependencies.AppleShorcuts.Lights import turnOn, turnOff
+from AIDependencies.InternetSearch import DataFetch, MessageFormat
 from DoubleThread import MultiThreading
 import asyncio
 
@@ -16,9 +17,6 @@ chat_log=[Glados_prompt]
 
 # General Keywords
 
-AppleShorcutsKeywords = {"lights", "Lights"}
-TemperatureKeyword = {"Temperature.", "temperature.", "Temperature"}
-ShutUpKeyword = {"shut", "up."}
 
 # For AppleShorcuts only 
 async def handleLightsMessage(message):
@@ -45,14 +43,21 @@ def handleTemperatureMessage(message):
         SpeakRequest(message, response_message)
         return response_message
 
-# for shutting down
-def handleShutUpMessage(message):
-    Glados_prompt_response = getOpenAIResponse(message)
-    SpeakRequest(message, Glados_prompt_response)
-    return Glados_prompt_response
 
 # Normal response
 def getOpenAIResponse(message):
+    Glados_prompt_response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k-0613",
+        messages=chat_log,
+        temperature=1,
+        stop=None
+    )
+
+    SpeakRequest(message, Glados_prompt_response['choices'][0]['message']['content'])
+
+#TODO: Change the model for not getting to much requests
+def getOpenAIResponseforinternet(message, info):
+    chat_log.append({"role": "system", "content": info})
     Glados_prompt_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k-0613",
         messages=chat_log,
@@ -69,15 +74,12 @@ def processMessageGlados(message):
 
     CalledOpen = False
     chat_log.append({"role": "user", "content": message})
-    if any(keyword in message.lower().split(" ") for keyword in ["lights", "Lights", "Temperature", "shut", "up.","temperature.", "Temperature"]): # Improve this
-        if any(keyword in message.lower().split(" ") for keyword in AppleShorcutsKeywords):
+    if any(keyword in message.lower().split(" ") for keyword in ["lights", "Lights", "Temperature", "shut", "up.","temperature.", "Temperature","Search,", "search,", "Search", "search"]): # Improve this
+        if any(keyword in message.lower().split(" ") for keyword in ["lights", "Lights"]):
             asyncio.run(handleLightsMessage(message))
             return message
-        elif TemperatureKeyword in message.lower().split(" "):
+        elif any(keyword in message.lower().split(" ") for keyword in ["temperature", "temperature."]):
             handleTemperatureMessage(message)
-            return message
-        elif all(keyword in message.lower().split(" ") for keyword in ShutUpKeyword):
-            handleShutUpMessage(message)
             return message
         else:
             CalledOpen = True
@@ -92,7 +94,4 @@ def SpeakRequest(message, action_message):
     chat_log.append({"role": "assistant", "content": action_message})
 
 
-
-    
-    
 

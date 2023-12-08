@@ -55,3 +55,7 @@ Thx to @VRCWizard (Where I took the source initially for Glados) and special tha
 Anything you can contact me on Discord: @pedro021
 
 > **Note:** If you're using the source code, you'll need to create a file called where you stored your APIs.
+> **For Gpus:** You'll need to install the next torch release:
+> ```bash
+   pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121
+> ```
