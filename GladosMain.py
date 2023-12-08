@@ -15,11 +15,9 @@ while True:
                 space_pressed = True
 
             if (voice_recognization.voice_recognization() != None):
-                message = voice_recognization.TTSQuery()
+                message = voice_recognization.TTSRequest()
                 glados_AI.processMessageGlados(message)
                 space_pressed = False
-            
-
 
         except Exception as e:
             print(f"\033[34m\033[31mERROR:\033[0m \033[38;5;208mMAXIMUN FAILURE\033[0m")    
