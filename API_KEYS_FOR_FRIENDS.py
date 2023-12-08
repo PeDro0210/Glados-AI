@@ -1,2 +1,2 @@
-Open_AI_API="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"
+Open_AI_API="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"
 Weather_URL="https://api.open-meteo.com/v1/forecast?latitude=14.60&longitude=-90.50&hourly=temperature_2m&current_weather=true&timezone=CST"

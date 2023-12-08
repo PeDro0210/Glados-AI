@@ -33,4 +33,4 @@ def MessageFormat(message):
     )
     print(response['choices'][0]['message']['content'])
 
-    return f"Interpret this information, you were asked for some info: {response['choices'][0]['message']['content']}"
+    return f"Interpret this information, you were asked for: {response['choices'][0]['message']['content']}"

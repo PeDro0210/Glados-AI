@@ -30,7 +30,7 @@ def voice_recognization():
         return None
 
 
-def TTSQuery():
+def TTSRequest():
     openai.api_key = Open_AI_KEY
     #sends audio as bytes to openai and gets the text
     with open("src/Audios/microphone-results.wav", "rb") as audio_file:

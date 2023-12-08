@@ -67,6 +67,7 @@ def getOpenAIResponseforinternet(message, info):
 
     SpeakRequest(message, Glados_prompt_response['choices'][0]['message']['content'])
 
+#TODO: Add the internet search
 #all the response manager
 def processMessageGlados(message):
     if message == "Error 504ValveInteractive: I'm not in a position to answer you that right now, inferior human, try again, someday":
