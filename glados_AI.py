@@ -87,8 +87,7 @@ def processMessageGlados(message):
     if not CalledOpen:
         getOpenAIResponse(message)
         return message
-
-
+                                                                        
 def SpeakRequest(message, action_message):
     print(f"\033[34mMessage:\033[0m \033[38;5;208m{message}\033[0m")
     MultiThreading(action_message)
